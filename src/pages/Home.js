@@ -1,19 +1,27 @@
-import React        from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import { Incident } from '../components/Incident'
 
-export function Home () {
+function Home({ incidents }) {
   return (
     <div>
-      <Incident
-        title="Test incident"
-        assignee="Admin"
-        status="Resolved"
-      />
-      <Incident
-        title="Another incident"
-        assignee="Engineer"
-        status="Acknowledged"
-      />
+      {incidents.map((incident, index) => (
+        <Incident
+          key={index}
+          title={incident.title}
+          assignee={incident.assignee}
+          status={incident.status}
+        />))
+      }
     </div>
   )
 }
+
+
+const mapStateToProps = state => ({
+  incidents: state.incidents
+})
+
+export default connect(
+  mapStateToProps
+)(Home)
