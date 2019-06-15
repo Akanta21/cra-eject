@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { CreateIncident } from './pages/CreateIncident'
+import CreateIncident from './pages/CreateIncident'
 import Home from './pages/Home'
 import { Header } from './components/Header'
 
