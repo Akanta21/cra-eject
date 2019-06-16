@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Incident } from '../components/Incident'
 
+
 function Home({ incidents }) {
   return (
     <div>

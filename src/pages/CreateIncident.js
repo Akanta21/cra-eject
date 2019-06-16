@@ -1,52 +1,80 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { createIncident } from '../../lib/actions'
-import {
-  Grommet,
-  Button,
-  Form,
-  FormField
-} from "grommet";
 
-function CreateIncident({ createIncident }) {
-  const [incidentName, setIncidentName] = useState();
-  const [assignee, setAssignee] = useState();
-  const [status, setStatus] = useState();
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+
+import CreateIncidentStyles from './styles/CreateIncidentStyle'
+
+function CreateIncident({ createIncident, history }) {
+  const [values, setValues] = useState({
+    title: '',
+    assignee: '',
+    status: '',
+  });
 
   function submit(e) {
-    createIncident(e.value)
-    console.log(e.value)
+    e.preventDefault()
+    createIncident(values)
+    // we assume that the response is successful
+    history.push('/')
   }
 
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const classes = CreateIncidentStyles()
+
   return (
-    <Grommet plain>
-      <Form onSubmit={submit}>
-        <FormField
-          name="title"
+    <Container component="main" maxWidth="xs">
+      <Typography color="primary" component="h1" variant="h5">
+        Add new incident
+      </Typography>
+      <form onSubmit={submit} className={classes.form} noValidate autoComplete="off">
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
+          id="title"
           label="Incident Name"
-          value={incidentName}
-          onChange={(e) => setIncidentName(e.target.value)}
+          name="title"
+          value={values.title}
+          onChange={handleChange('title')}
+          margin="normal"
         />
-        <FormField
-          name="assignee"
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
+          id="assignee"
           label="Assignee"
-          value={assignee}
-          onChange={(e) => setAssignee(e.target.value)}
+          value={values.assignee}
+          onChange={handleChange('assignee')}
+          margin="normal"
         />
-        <FormField
-          name="status"
+        <TextField
+          variant="outlined"
+          required
+          fullWidth
+          id="status"
           label="Status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          value={values.status}
+          onChange={handleChange('status')}
+          margin="normal"
         />
         <Button
-          disabled={!incidentName || !assignee || !status}
+          disabled={!values.title || !values.assignee || !values.status}
           type="submit"
-          primary
-          label="Submit"
-        />
-      </Form>
-    </Grommet>
+          color="primary"
+          variant="contained"
+          fullWidth
+        >Submit</Button>
+      </form>
+    </Container>
   )
 }
 
