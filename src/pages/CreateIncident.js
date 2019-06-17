@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useRedux } from '../../lib/useRedux'
 import { createIncident } from '../../lib/actions'
 
 import TextField from '@material-ui/core/TextField';
@@ -9,16 +9,29 @@ import Typography from '@material-ui/core/Typography';
 
 import CreateIncidentStyles from './styles/CreateIncidentStyle'
 
-function CreateIncident({ createIncident, history }) {
+function CreateIncident({ history }) {
+  // local state for form input
   const [values, setValues] = useState({
     title: '',
     assignee: '',
     status: '',
   });
 
+  // mapStateToProps and mapDispatchToProps
+  const mapStateToProps = state => ({
+    incidents: state.incidents
+  })
+
+  const mapDispatchToProps = dispatch => ({
+    createIncident: (incidentObject) => dispatch(createIncident(incidentObject))
+  })
+
+  // connecting redux
+  const reduxState = useRedux(mapStateToProps, mapDispatchToProps)
+
   function submit(e) {
     e.preventDefault()
-    createIncident(values)
+    reduxState.createIncident(values)
     // we assume that the response is successful
     history.push('/')
   }
@@ -78,15 +91,4 @@ function CreateIncident({ createIncident, history }) {
   )
 }
 
-const mapStateToProps = state => ({
-  incidents: state.incidents
-})
-
-const mapDispatchToProps = dispatch => ({
-  createIncident: (incidentObject) => dispatch(createIncident(incidentObject))
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateIncident)
+export default CreateIncident

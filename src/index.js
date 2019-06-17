@@ -1,17 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from '../lib/reducers'
 import App from './App';
+import ReduxProvider from '../lib/Contexter';
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(rootReducer)
 
 ReactDOM.render(
-  <Provider store={store}>
+  <ReduxProvider>
     <App />
-  </Provider>,
+  </ReduxProvider >,
   document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

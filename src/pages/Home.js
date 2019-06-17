@@ -1,12 +1,18 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useRedux } from '../../lib/useRedux'
 import { Incident } from '../components/Incident'
 
 
 function Home({ incidents }) {
+  const mapStateToProps = state => ({
+    incidents: state.incidents
+  })
+
+  const reduxState = useRedux(mapStateToProps)
+
   return (
     <div>
-      {incidents.map((incident, index) => (
+      {reduxState.incidents.map((incident, index) => (
         <Incident
           key={index}
           title={incident.title}
@@ -18,11 +24,4 @@ function Home({ incidents }) {
   )
 }
 
-
-const mapStateToProps = state => ({
-  incidents: state.incidents
-})
-
-export default connect(
-  mapStateToProps
-)(Home)
+export default Home
