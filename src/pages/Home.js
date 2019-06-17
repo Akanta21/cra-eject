@@ -1,18 +1,14 @@
 import React from 'react'
-import { useRedux } from '../../lib/useRedux'
+import { Store } from '../../lib/Store'
 import { Incident } from '../components/Incident'
 
 
-function Home({ incidents }) {
-  const mapStateToProps = state => ({
-    incidents: state.incidents
-  })
-
-  const reduxState = useRedux(mapStateToProps)
+function Home() {
+  const { incidents } = React.useContext(Store);
 
   return (
     <div>
-      {reduxState.incidents.map((incident, index) => (
+      {incidents.map((incident, index) => (
         <Incident
           key={index}
           title={incident.title}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { useRedux } from '../../lib/useRedux'
 import { createIncident } from '../../lib/actions'
+import { Store } from '../../lib/Store'
+
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -17,21 +18,12 @@ function CreateIncident({ history }) {
     status: '',
   });
 
-  // mapStateToProps and mapDispatchToProps
-  const mapStateToProps = state => ({
-    incidents: state.incidents
-  })
-
-  const mapDispatchToProps = dispatch => ({
-    createIncident: (incidentObject) => dispatch(createIncident(incidentObject))
-  })
-
-  // connecting redux
-  const reduxState = useRedux(mapStateToProps, mapDispatchToProps)
+  const { incidentDispatch } = React.useContext(Store);
 
   function submit(e) {
     e.preventDefault()
-    reduxState.createIncident(values)
+    incidentDispatch(createIncident(values))
+
     // we assume that the response is successful
     history.push('/')
   }
